@@ -57,10 +57,9 @@ public class RedisLimitTrafficExecution extends AbstractAddTokenThread {
 		redisOperationsRecursion.addTokens(boundListOperations, redisExecutionConfigure.getTokenValue(), thisSize);
 		BoundValueOperations<Object, Object> boundValueOperations = RedisOperationsFactory.getBoundValueOperations(redisTemplate, redisExecutionConfigure.getLockKey());
 
-		boolean condition = Boolean.TRUE;
-		while (condition) {
+		while (true) {
 			Boolean lock = RedisOperationsExecution.lock(boundValueOperations, redisExecutionConfigure.getLockValue(), redisExecutionConfigure.getIntervalTime(), redisExecutionConfigure.getTimeUnit());
-			if (lock) {
+			if (Boolean.TRUE.equals(lock)) {
 				long thisOffset = redisOperationsRecursion.getOffset().get() + redisExecutionConfigure.getAddedQuantity();
 				redisOperationsRecursion.setOffset(new AtomicLong(thisOffset));
 				thisSize = boundListOperations.size();
@@ -68,8 +67,9 @@ public class RedisLimitTrafficExecution extends AbstractAddTokenThread {
 				try {
 					Thread.sleep(redisExecutionConfigure.getTimeUnit().toMillis(redisExecutionConfigure.getIntervalTime()));
 				} catch (InterruptedException e) {
-					condition = Boolean.FALSE;
 					log.error("Thread.sleep error", new LimitException(e));
+					Thread.currentThread().interrupt();
+					break;
 				}
 			}
 		}
