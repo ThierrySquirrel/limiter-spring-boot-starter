@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.github.thierrysquirrel.thread;
+package com.github.thierrysquirrel.limiter.thread;
 
 
-import com.github.thierrysquirrel.annotation.LimitTraffic;
+import com.github.thierrysquirrel.limiter.annotation.LimitTraffic;
 import lombok.Data;
 import org.springframework.data.redis.core.RedisTemplate;
 

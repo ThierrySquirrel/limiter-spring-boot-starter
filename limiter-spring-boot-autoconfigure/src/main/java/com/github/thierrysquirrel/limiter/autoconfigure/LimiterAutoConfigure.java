@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.github.thierrysquirrel.autoconfigure;
+package com.github.thierrysquirrel.limiter.autoconfigure;
 
 
-import com.github.thierrysquirrel.annotation.EnableLimiter;
-import com.github.thierrysquirrel.aspect.LimiterAspect;
-import com.github.thierrysquirrel.initialize.LimiterInitialize;
+import com.github.thierrysquirrel.limiter.annotation.EnableLimiter;
+import com.github.thierrysquirrel.limiter.aspect.LimiterAspect;
+import com.github.thierrysquirrel.limiter.initialize.LimiterInitialize;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.thierrysquirrel.core.factory;
+package com.github.thierrysquirrel.limiter.core.factory;
 
 
 import org.springframework.data.redis.core.BoundListOperations;

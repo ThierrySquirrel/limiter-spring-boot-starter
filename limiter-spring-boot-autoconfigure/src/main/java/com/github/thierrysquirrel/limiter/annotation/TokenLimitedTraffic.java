@@ -14,29 +14,26 @@
  * limitations under the License.
  */
 
-package com.github.thierrysquirrel.core.utils;
+package com.github.thierrysquirrel.limiter.annotation;
 
+import org.springframework.stereotype.Component;
 
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.reflect.MethodSignature;
+import java.lang.annotation.*;
 
-import java.lang.reflect.Method;
 
 /**
- * ClassName: AspectUtils
+ * ClassName: TokenLimitedTraffic
  * Description:
- * date: 2019/7/18 11:13
+ * date: 2019/7/17 16:51
  *
  * @author ThierrySquirrel
  * @since JDK 1.8
  */
-public class AspectUtils {
-	private AspectUtils() {
-	}
-
-	public static Method getMethod(ProceedingJoinPoint proceedingJoinPoint) {
-		MethodSignature signature = (MethodSignature) proceedingJoinPoint.getSignature();
-		return signature.getMethod();
-	}
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Inherited
+@Component
+public @interface TokenLimitedTraffic {
 
 }

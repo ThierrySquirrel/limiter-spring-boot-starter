@@ -14,32 +14,25 @@
  * limitations under the License.
  */
 
-package com.github.thierrysquirrel.core.utils;
+package com.github.thierrysquirrel.limiter.annotation;
 
+import com.github.thierrysquirrel.limiter.autoconfigure.LimiterAutoConfigure;
+import org.springframework.context.annotation.Import;
 
-import org.springframework.core.MethodIntrospector;
-import org.springframework.core.annotation.AnnotatedElementUtils;
-
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
-import java.util.Map;
+import java.lang.annotation.*;
 
 /**
- * ClassName: AnnotatedMethodsUtils
+ * ClassName: EnableLimiter
  * Description:
- * date: 2019/7/17 17:29
+ * date: 2019/7/17 16:50
  *
  * @author ThierrySquirrel
  * @since JDK 1.8
  */
-public class AnnotatedMethodsUtils {
-	private AnnotatedMethodsUtils() {
-
-	}
-
-	public static <T extends Annotation> Map<Method, T> getMethodAndAnnotation(Object bean, Class<T> annotation) {
-		return MethodIntrospector.selectMethods(bean.getClass(),
-				(MethodIntrospector.MetadataLookup<T>) method -> AnnotatedElementUtils
-						.findMergedAnnotation(method, annotation));
-	}
+@Target({ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Inherited
+@Import({LimiterAutoConfigure.class})
+public @interface EnableLimiter {
 }

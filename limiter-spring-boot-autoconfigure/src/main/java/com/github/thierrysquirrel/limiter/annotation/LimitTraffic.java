@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.thierrysquirrel.annotation;
+package com.github.thierrysquirrel.limiter.annotation;
 
 
 import org.springframework.stereotype.Indexed;

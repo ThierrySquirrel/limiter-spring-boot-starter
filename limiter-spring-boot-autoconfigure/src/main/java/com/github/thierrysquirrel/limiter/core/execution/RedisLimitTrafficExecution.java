@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package com.github.thierrysquirrel.core.execution;
+package com.github.thierrysquirrel.limiter.core.execution;
 
 
-import com.github.thierrysquirrel.annotation.LimitTraffic;
-import com.github.thierrysquirrel.core.configure.TokenLimitedTrafficConfigure;
-import com.github.thierrysquirrel.core.error.LimitException;
-import com.github.thierrysquirrel.core.factory.RedisOperationsFactory;
-import com.github.thierrysquirrel.core.factory.RedisOperationsRecursionFactory;
-import com.github.thierrysquirrel.core.factory.TokenLimitedTrafficConfigureFactory;
-import com.github.thierrysquirrel.core.recursion.RedisOperationsRecursion;
-import com.github.thierrysquirrel.thread.AbstractAddTokenThread;
+import com.github.thierrysquirrel.limiter.annotation.LimitTraffic;
+import com.github.thierrysquirrel.limiter.core.configure.TokenLimitedTrafficConfigure;
+import com.github.thierrysquirrel.limiter.core.error.LimitException;
+import com.github.thierrysquirrel.limiter.core.factory.RedisOperationsFactory;
+import com.github.thierrysquirrel.limiter.core.factory.RedisOperationsRecursionFactory;
+import com.github.thierrysquirrel.limiter.core.factory.TokenLimitedTrafficConfigureFactory;
+import com.github.thierrysquirrel.limiter.core.recursion.RedisOperationsRecursion;
+import com.github.thierrysquirrel.limiter.thread.AbstractAddTokenThread;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.BoundListOperations;
 import org.springframework.data.redis.core.BoundValueOperations;

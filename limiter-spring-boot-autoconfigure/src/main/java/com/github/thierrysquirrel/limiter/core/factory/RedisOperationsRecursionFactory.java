@@ -14,27 +14,28 @@
  * limitations under the License.
  */
 
-package com.github.thierrysquirrel.core.error;
+package com.github.thierrysquirrel.limiter.core.factory;
 
+
+import com.github.thierrysquirrel.limiter.core.configure.TokenLimitedTrafficConfigure;
+import com.github.thierrysquirrel.limiter.core.recursion.RedisOperationsRecursion;
+
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * ClassName: LimitException
+ * ClassName: RedisOperationsRecursionFactory
  * Description:
- * date: 2019/7/18 10:35
+ * date: 2019/7/18 10:13
  *
  * @author ThierrySquirrel
  * @since JDK 1.8
  */
-public class LimitException extends Exception {
-	public LimitException(String message) {
-		super(message);
+
+public class RedisOperationsRecursionFactory {
+	private RedisOperationsRecursionFactory() {
 	}
 
-	public LimitException(Throwable cause) {
-		super(cause);
-	}
-
-	public LimitException(String message, Throwable cause) {
-		super(message, cause);
+	public static RedisOperationsRecursion getRedisOperationsRecursion(TokenLimitedTrafficConfigure tokenLimitedTrafficConfigure) {
+		return new RedisOperationsRecursion(new AtomicLong(tokenLimitedTrafficConfigure.getInitialQuantity()), tokenLimitedTrafficConfigure.getMaximumCapacity());
 	}
 }

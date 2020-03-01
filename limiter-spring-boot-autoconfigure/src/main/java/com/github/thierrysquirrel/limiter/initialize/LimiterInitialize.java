@@ -14,20 +14,21 @@
  * limitations under the License.
  */
 
-package com.github.thierrysquirrel.initialize;
+package com.github.thierrysquirrel.limiter.initialize;
 
 
-import com.github.thierrysquirrel.annotation.LimitTraffic;
-import com.github.thierrysquirrel.annotation.TokenLimitedTraffic;
-import com.github.thierrysquirrel.core.execution.RedisLimitTrafficExecution;
-import com.github.thierrysquirrel.core.execution.ThreadPoolExecutorExecution;
-import com.github.thierrysquirrel.core.factory.ThreadPoolFactory;
-import com.github.thierrysquirrel.core.utils.AnnotatedMethodsUtils;
+import com.github.thierrysquirrel.limiter.annotation.LimitTraffic;
+import com.github.thierrysquirrel.limiter.annotation.TokenLimitedTraffic;
+import com.github.thierrysquirrel.limiter.core.execution.RedisLimitTrafficExecution;
+import com.github.thierrysquirrel.limiter.core.execution.ThreadPoolExecutorExecution;
+import com.github.thierrysquirrel.limiter.core.factory.ThreadPoolFactory;
+import com.github.thierrysquirrel.limiter.core.utils.AnnotatedMethodsUtils;
 import lombok.Data;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import javax.annotation.Nonnull;
 import javax.annotation.PostConstruct;
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -61,7 +62,7 @@ public class LimiterInitialize implements ApplicationContextAware {
 	}
 
 	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) {
+	public void setApplicationContext(@Nonnull ApplicationContext applicationContext) {
 		this.applicationContext = applicationContext;
 	}
 }

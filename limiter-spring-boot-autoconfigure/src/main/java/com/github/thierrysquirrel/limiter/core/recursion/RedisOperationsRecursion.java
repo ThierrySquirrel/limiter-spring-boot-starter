@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.github.thierrysquirrel.core.recursion;
+package com.github.thierrysquirrel.limiter.core.recursion;
 
 
-import com.github.thierrysquirrel.core.execution.RedisOperationsExecution;
+import com.github.thierrysquirrel.limiter.core.execution.RedisOperationsExecution;
 import lombok.Data;
 import org.springframework.data.redis.core.BoundListOperations;
 

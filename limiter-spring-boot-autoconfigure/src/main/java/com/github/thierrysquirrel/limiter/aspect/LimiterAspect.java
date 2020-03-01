@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.github.thierrysquirrel.aspect;
+package com.github.thierrysquirrel.limiter.aspect;
 
 
-import com.github.thierrysquirrel.core.execution.RedisOperationsExecution;
-import com.github.thierrysquirrel.core.factory.RedisOperationsFactory;
-import com.github.thierrysquirrel.core.utils.AspectUtils;
+import com.github.thierrysquirrel.limiter.core.execution.RedisOperationsExecution;
+import com.github.thierrysquirrel.limiter.core.factory.RedisOperationsFactory;
+import com.github.thierrysquirrel.limiter.core.utils.AspectUtils;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -51,7 +51,7 @@ public class LimiterAspect {
 		this.redisTemplate = redisTemplate;
 	}
 
-	@Pointcut("@annotation(com.github.thierrysquirrel.annotation.LimitTraffic)")
+	@Pointcut("@annotation(com.github.thierrysquirrel.limiter.annotation.LimitTraffic)")
 	public void limitTrafficPointcut() {
 		log.debug("Start limiting traffic");
 	}

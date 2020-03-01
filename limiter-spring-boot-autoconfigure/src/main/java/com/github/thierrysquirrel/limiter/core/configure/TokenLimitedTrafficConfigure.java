@@ -14,25 +14,31 @@
  * limitations under the License.
  */
 
-package com.github.thierrysquirrel.annotation;
+package com.github.thierrysquirrel.limiter.core.configure;
 
-import com.github.thierrysquirrel.autoconfigure.LimiterAutoConfigure;
-import org.springframework.context.annotation.Import;
 
-import java.lang.annotation.*;
+import lombok.Data;
+
+import java.io.Serializable;
+import java.util.concurrent.TimeUnit;
 
 /**
- * ClassName: EnableLimiter
+ * ClassName: TokenLimitedTrafficConfigure
  * Description:
- * date: 2019/7/17 16:50
+ * date: 2019/7/17 18:34
  *
  * @author ThierrySquirrel
  * @since JDK 1.8
  */
-@Target({ElementType.TYPE})
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-@Inherited
-@Import({LimiterAutoConfigure.class})
-public @interface EnableLimiter {
+@Data
+public class TokenLimitedTrafficConfigure implements Serializable {
+	private byte[] tokenKey;
+	private Integer tokenValue;
+	private String lockKey;
+	private Integer lockValue;
+	private long initialQuantity;
+	private long maximumCapacity;
+	private long addedQuantity;
+	private long intervalTime;
+	private TimeUnit timeUnit;
 }

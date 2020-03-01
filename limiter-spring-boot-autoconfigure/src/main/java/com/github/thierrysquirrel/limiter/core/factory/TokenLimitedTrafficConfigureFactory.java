@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.github.thierrysquirrel.core.factory;
+package com.github.thierrysquirrel.limiter.core.factory;
 
 
-import com.github.thierrysquirrel.annotation.LimitTraffic;
-import com.github.thierrysquirrel.core.configure.TokenLimitedTrafficConfigure;
+import com.github.thierrysquirrel.limiter.annotation.LimitTraffic;
+import com.github.thierrysquirrel.limiter.core.configure.TokenLimitedTrafficConfigure;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.lang.reflect.Method;

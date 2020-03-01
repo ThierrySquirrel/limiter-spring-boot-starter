@@ -14,31 +14,29 @@
  * limitations under the License.
  */
 
-package com.github.thierrysquirrel.core.configure;
+package com.github.thierrysquirrel.limiter.core.utils;
 
 
-import lombok.Data;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.reflect.MethodSignature;
 
-import java.io.Serializable;
-import java.util.concurrent.TimeUnit;
+import java.lang.reflect.Method;
 
 /**
- * ClassName: TokenLimitedTrafficConfigure
+ * ClassName: AspectUtils
  * Description:
- * date: 2019/7/17 18:34
+ * date: 2019/7/18 11:13
  *
  * @author ThierrySquirrel
  * @since JDK 1.8
  */
-@Data
-public class TokenLimitedTrafficConfigure implements Serializable {
-	private byte[] tokenKey;
-	private Integer tokenValue;
-	private String lockKey;
-	private Integer lockValue;
-	private long initialQuantity;
-	private long maximumCapacity;
-	private long addedQuantity;
-	private long intervalTime;
-	private TimeUnit timeUnit;
+public class AspectUtils {
+	private AspectUtils() {
+	}
+
+	public static Method getMethod(ProceedingJoinPoint proceedingJoinPoint) {
+		MethodSignature signature = (MethodSignature) proceedingJoinPoint.getSignature();
+		return signature.getMethod();
+	}
+
 }

@@ -14,28 +14,32 @@
  * limitations under the License.
  */
 
-package com.github.thierrysquirrel.core.factory;
+package com.github.thierrysquirrel.limiter.core.utils;
 
 
-import com.github.thierrysquirrel.core.configure.TokenLimitedTrafficConfigure;
-import com.github.thierrysquirrel.core.recursion.RedisOperationsRecursion;
+import org.springframework.core.MethodIntrospector;
+import org.springframework.core.annotation.AnnotatedElementUtils;
 
-import java.util.concurrent.atomic.AtomicLong;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+import java.util.Map;
 
 /**
- * ClassName: RedisOperationsRecursionFactory
+ * ClassName: AnnotatedMethodsUtils
  * Description:
- * date: 2019/7/18 10:13
+ * date: 2019/7/17 17:29
  *
  * @author ThierrySquirrel
  * @since JDK 1.8
  */
+public class AnnotatedMethodsUtils {
+	private AnnotatedMethodsUtils() {
 
-public class RedisOperationsRecursionFactory {
-	private RedisOperationsRecursionFactory() {
 	}
 
-	public static RedisOperationsRecursion getRedisOperationsRecursion(TokenLimitedTrafficConfigure tokenLimitedTrafficConfigure) {
-		return new RedisOperationsRecursion(new AtomicLong(tokenLimitedTrafficConfigure.getInitialQuantity()), tokenLimitedTrafficConfigure.getMaximumCapacity());
+	public static <T extends Annotation> Map<Method, T> getMethodAndAnnotation(Object bean, Class<T> annotation) {
+		return MethodIntrospector.selectMethods(bean.getClass(),
+				(MethodIntrospector.MetadataLookup<T>) method -> AnnotatedElementUtils
+						.findMergedAnnotation(method, annotation));
 	}
 }

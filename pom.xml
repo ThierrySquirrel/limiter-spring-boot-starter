@@ -7,7 +7,7 @@
     <groupId>com.github.thierrysquirrel</groupId>
     <artifactId>limiter-spring-boot</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.6-RELEASE</version>
+    <version>1.1.0-RELEASE</version>
 
     <name>limiter-spring-boot</name>
     <description>limiter-spring-boot</description>
@@ -16,7 +16,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.4.RELEASE</version>
+        <version>2.2.5.RELEASE</version>
         <relativePath/>
     </parent>
 
@@ -29,7 +29,7 @@
         <java.version>1.8</java.version>
         <spring-cloud.version>Hoxton.SR1</spring-cloud.version>
         <guava.version>28.2-jre</guava.version>
-        <commons-codec.version>1.13</commons-codec.version>
+        <commons-codec.version>1.14</commons-codec.version>
         <maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
     </properties>

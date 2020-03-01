@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.thierrysquirrel.core.execution;
+package com.github.thierrysquirrel.limiter.core.execution;
 
 
 import java.util.concurrent.ThreadPoolExecutor;

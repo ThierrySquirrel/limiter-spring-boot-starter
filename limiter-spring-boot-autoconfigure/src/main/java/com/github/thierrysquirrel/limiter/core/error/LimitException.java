@@ -14,26 +14,27 @@
  * limitations under the License.
  */
 
-package com.github.thierrysquirrel.annotation;
-
-import org.springframework.stereotype.Component;
-
-import java.lang.annotation.*;
+package com.github.thierrysquirrel.limiter.core.error;
 
 
 /**
- * ClassName: TokenLimitedTraffic
+ * ClassName: LimitException
  * Description:
- * date: 2019/7/17 16:51
+ * date: 2019/7/18 10:35
  *
  * @author ThierrySquirrel
  * @since JDK 1.8
  */
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-@Inherited
-@Component
-public @interface TokenLimitedTraffic {
+public class LimitException extends Exception {
+	public LimitException(String message) {
+		super(message);
+	}
 
+	public LimitException(Throwable cause) {
+		super(cause);
+	}
+
+	public LimitException(String message, Throwable cause) {
+		super(message, cause);
+	}
 }
