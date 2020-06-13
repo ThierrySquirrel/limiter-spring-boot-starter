@@ -21,7 +21,7 @@
         <dependency>
             <artifactId>limiter-spring-boot-starter</artifactId>
             <groupId>com.github.thierrysquirrel</groupId>
-            <version>1.1.4-RELEASE</version>
+            <version>1.1.5-RELEASE</version>
         </dependency>
 ```
 
