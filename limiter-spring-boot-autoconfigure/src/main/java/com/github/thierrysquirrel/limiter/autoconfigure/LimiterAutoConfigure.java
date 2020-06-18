@@ -17,16 +17,11 @@
 package com.github.thierrysquirrel.limiter.autoconfigure;
 
 
-import com.github.thierrysquirrel.limiter.annotation.EnableLimiter;
 import com.github.thierrysquirrel.limiter.aspect.LimiterAspect;
-import com.github.thierrysquirrel.limiter.initialize.LimiterInitialize;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import com.github.thierrysquirrel.limiter.init.LimitedServiceStrategyInit;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.core.RedisTemplate;
-
-import javax.annotation.Resource;
 
 /**
  * ClassName: LimiterAutoConfigure
@@ -37,20 +32,16 @@ import javax.annotation.Resource;
  * @since JDK 1.8
  */
 @Configuration
-@ConditionalOnBean(annotation = EnableLimiter.class)
 public class LimiterAutoConfigure {
-	@Resource
-	private RedisTemplate<Object, Object> redisTemplate;
 
-	@Bean
-	@ConditionalOnMissingBean(LimiterInitialize.class)
-	public LimiterInitialize limiterInitialize() {
-		return new LimiterInitialize(redisTemplate);
-	}
-
-	@Bean
-	@ConditionalOnMissingBean(LimiterAspect.class)
-	public LimiterAspect limiterAspect() {
-		return new LimiterAspect(redisTemplate);
-	}
+    @Bean
+    @ConditionalOnMissingBean(LimiterAspect.class)
+    public LimiterAspect limiterAspect(){
+        return new LimiterAspect ();
+    }
+    @Bean
+    @ConditionalOnMissingBean(LimitedServiceStrategyInit.class)
+    public LimitedServiceStrategyInit limitedServiceStrategyInit() {
+        return new LimitedServiceStrategyInit ();
+    }
 }

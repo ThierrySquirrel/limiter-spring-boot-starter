@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 the original author or authors.
+ * Copyright 2020 the original author or authors.
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,32 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.github.thierrysquirrel.limiter.core.domain;
 
-package com.github.thierrysquirrel.limiter.core.configure;
-
-
+import com.github.thierrysquirrel.limiter.core.constant.ServiceStatusConstant;
 import lombok.Data;
 
-import java.io.Serializable;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.LongAdder;
 
 /**
- * ClassName: TokenLimitedTrafficConfigure
+ * ClassName: ServiceDomain
  * Description:
- * date: 2019/7/17 18:34
+ * date: 2020/6/18 15:39
  *
  * @author ThierrySquirrel
  * @since JDK 1.8
  */
 @Data
-public class TokenLimitedTrafficConfigure implements Serializable {
-	private byte[] tokenKey;
-	private Integer tokenValue;
-	private String lockKey;
-	private Integer lockValue;
-	private long initialQuantity;
-	private long maximumCapacity;
-	private long addedQuantity;
-	private long intervalTime;
-	private TimeUnit timeUnit;
+public class ServiceDomain {
+    private ServiceStatusConstant serviceStatusConstant;
+    private LongAdder successCount;
+    private LongAdder failCount;
+    private LongAdder timeoutCount;
+    private LongAdder tryCount;
+    private Long resetCountTime;
+    private Long closeTime;
 }

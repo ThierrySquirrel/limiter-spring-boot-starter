@@ -17,21 +17,21 @@
 package com.github.thierrysquirrel.limiter.aspect;
 
 
-import com.github.thierrysquirrel.limiter.core.execution.RedisOperationsExecution;
-import com.github.thierrysquirrel.limiter.core.factory.RedisOperationsFactory;
+import com.github.thierrysquirrel.limiter.annotation.LimitTraffic;
+import com.github.thierrysquirrel.limiter.annotation.LimitedService;
+import com.github.thierrysquirrel.limiter.core.error.LimitException;
+import com.github.thierrysquirrel.limiter.core.factory.execution.LimitTrafficFactoryExecution;
+import com.github.thierrysquirrel.limiter.core.factory.execution.LimitedServiceFactoryExecution;
 import com.github.thierrysquirrel.limiter.core.utils.AspectUtils;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.data.redis.core.BoundListOperations;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.util.ObjectUtils;
-
-import java.lang.reflect.Method;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.lang.NonNull;
 
 /**
  * ClassName: LimiterAspect
@@ -44,26 +44,40 @@ import java.lang.reflect.Method;
 @Aspect
 @Slf4j
 @Data
-public class LimiterAspect {
-	private RedisTemplate<Object, Object> redisTemplate;
+public class LimiterAspect implements ApplicationContextAware {
+    private ApplicationContext applicationContext;
 
-	public LimiterAspect(RedisTemplate<Object, Object> redisTemplate) {
-		this.redisTemplate = redisTemplate;
-	}
+    @Pointcut("@annotation(com.github.thierrysquirrel.limiter.annotation.LimitTraffic)")
+    public void limitTrafficPointcut() {
+        log.debug ("Start LimitTraffic");
+    }
 
-	@Pointcut("@annotation(com.github.thierrysquirrel.limiter.annotation.LimitTraffic)")
-	public void limitTrafficPointcut() {
-		log.debug("Start limiting traffic");
-	}
+    @Pointcut("@annotation(com.github.thierrysquirrel.limiter.annotation.LimitedService)")
+    public void limitedServicePointcut() {
+        log.debug ("Start LimitedService");
+    }
 
-	@Around("limitTrafficPointcut()")
-	public Object limitTrafficAround(ProceedingJoinPoint point) throws Throwable {
-		Method method = AspectUtils.getMethod(point);
-		BoundListOperations<Object, Object> boundListOperations = RedisOperationsFactory.getBoundListOperations(redisTemplate, DigestUtils.sha1(method.toString()));
-		Object token = RedisOperationsExecution.getToken(boundListOperations);
-		if (ObjectUtils.isEmpty(token)) {
-			return null;
-		}
-		return point.proceed();
-	}
+    @Around("limitTrafficPointcut()")
+    public Object limitTrafficAround(ProceedingJoinPoint point) throws LimitException {
+        return LimitTrafficFactoryExecution.limitTraffic (point,
+                applicationContext,
+                AspectUtils.getAnnotation (point, LimitTraffic.class),
+                AspectUtils.getParameterTypes (point),
+                point.getArgs ());
+    }
+
+    @Around("limitedServicePointcut()")
+    public Object limitedServiceAround(ProceedingJoinPoint point) throws LimitException {
+        return LimitedServiceFactoryExecution.execution (applicationContext,
+                point,
+                AspectUtils.getAnnotation (point, LimitedService.class),
+                AspectUtils.getMethodToString (point),
+                AspectUtils.getParameterTypes (point),
+                point.getArgs ());
+    }
+
+    @Override
+    public void setApplicationContext(@NonNull ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
 }

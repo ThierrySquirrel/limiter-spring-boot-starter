@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 the original author or authors.
+ * Copyright 2020 the original author or authors.
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,25 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.github.thierrysquirrel.limiter.core.domain;
 
-package com.github.thierrysquirrel.limiter.core.execution;
+import lombok.Data;
 
-
-import java.util.concurrent.ThreadPoolExecutor;
+import java.lang.reflect.Method;
 
 /**
- * ClassName: ThreadPoolExecutorExecution
+ * ClassName: FallbackDomain
  * Description:
- * date: 2019/7/18 11:01
+ * date: 2020/6/18 15:04
  *
  * @author ThierrySquirrel
  * @since JDK 1.8
  */
-public class ThreadPoolExecutorExecution {
-	private ThreadPoolExecutorExecution() {
-	}
-
-	public static void statsThread(ThreadPoolExecutor threadPoolExecutor, Runnable runnable) {
-		threadPoolExecutor.execute(runnable);
-	}
+@Data
+public class FallbackDomain {
+    private Object bean;
+    private Method method;
+    private Object[] parameter;
 }

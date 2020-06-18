@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 the original author or authors.
+ * Copyright 2020 the original author or authors.
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,26 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.github.thierrysquirrel.limiter.core.builder;
 
-package com.github.thierrysquirrel.limiter.annotation;
-
-import com.github.thierrysquirrel.limiter.autoconfigure.LimiterAutoConfigure;
-import org.springframework.context.annotation.Import;
-
-import java.lang.annotation.*;
+import java.lang.reflect.Method;
 
 /**
- * ClassName: EnableLimiter
- * Description:
- * date: 2019/7/17 16:50
+ * ClassName: FallbackBuilder 
+ * Description: 
+ * date: 2020/6/18 15:01
  *
  * @author ThierrySquirrel
  * @since JDK 1.8
  */
-@Target({ElementType.TYPE})
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-@Inherited
-@Import({LimiterAutoConfigure.class})
-public @interface EnableLimiter {
+public class FallbackBuilder {
+    private FallbackBuilder() {
+    }
+    public static Method builderFallbackMethod(Object bean,String fallbackMethod,Class<?>[] parameterTypes) throws NoSuchMethodException {
+        return bean.getClass ().getMethod (fallbackMethod, parameterTypes);
+    }
 }

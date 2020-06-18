@@ -5,15 +5,15 @@
 [English](./README.md)
 
 支持功能：
-- [x] 单机限流
-- [x] 集群限流
+- [x] 限流  
+- [x] 限制服务  
 
-## 提示：
-    每次重启或新增一个节点,初始数量会向redis填充,当然,这是在容量未达到最大情况下  
-    具体流量限制参数,请配合压力测试工具来调优,达到您所需要的QPS  
-    限流成功,则执行含有@LimitTraffic注解代码块,否则不执行,便于用户自定义方案,如服务保护降级等操作  
-    为提高性能,不采取强一致性,限流误差最大值为：集群数量-1  
-        
+## 提示:
+  限流之前,请先压测好服务QPS,进行准确限流.  
+  准确限流,保障服务不会因为过高QPS导致服务关闭或重启,服务集群时更为健壮.  
+  限流操作,应该分为事务性操作,和非事务性操作,分开限流,通常两者QPS差距较大.  
+  限制服务,用于可能产生延迟或高出错率的服务,保障服务的安全性  
+
 ##  Quick Start
 
 ```xml
@@ -21,24 +21,15 @@
         <dependency>
             <artifactId>limiter-spring-boot-starter</artifactId>
             <groupId>com.github.thierrysquirrel</groupId>
-            <version>1.1.5-RELEASE</version>
+            <version>2.0.0-RELEASE</version>
         </dependency>
 ```
-
-### 配置文件
  
- ```properties
- ## application.properties
-spring.redis.host= #您redis的地址
-spring.redis.port= #您redis的端口号
- ```
- 
-#   启动limiter
+#   启动Limiter
 
  ```java
  @SpringBootApplication
- @EnableLimiter
- public class DemoApplication{
+ public class LimiterApplication{
      public static void main(String[] args){
          SpringApplication.run(DemoApplication.class, args);
      }  
@@ -48,31 +39,41 @@ spring.redis.port= #您redis的端口号
  #  限流
  
  ```java
- @TokenLimitedTraffic
- public class Hello {
- 	@LimitTraffic(initialQuantity = 2333, maximumCapacity = 3222, addedQuantity = 2333)
- 	public String hello() {
- 		return "world";
+@Slf4j
+@Component
+public class LimitFallback {
+    public String limit(String limit) {
+        log.error (limit);
+        return limit;
+    }
+}
+
+ @RestController
+ public class limitController {
+    @LimitTraffic (limitName = "limit", permitsPerSecond = 2000, fallbackClass = LimitFallback.class, fallbackMethod = "limit")
+ 	public String limit(@RequestParam("limit") String limit) {
+ 		return limit;
  	}
  }
  ```
+
+ #  限制服务
  
- #  自定义操作
-
-```java
-@RestController
-public class World {
-	@Resource
-	private Hello hello;
-
-	@GetMapping("/world")
-	public String world() {
-		String hello = this.hello.hello();
-		boolean empty = StringUtils.isEmpty(hello);
-		if (empty) {
-			return "服务降级";
-		}
-		return hello;
-	}
-}
-``` 
+  ```java
+ @Slf4j
+ @Component
+ public class LimitedServiceFallback {
+     public String limitedService(String limitedService) {
+         log.error (limitedService);
+         return limitedService;
+     }
+ }
+ 
+  @RestController
+  public class LimitedServiceController {
+     @LimitedService (fallbackClass = LimitedServiceFallback.class, fallbackMethod = "limitedService")
+  	public String limitedService(@RequestParam("limitedService") String limitedService) {
+  		return limitedService;
+  	}
+  }
+  ```

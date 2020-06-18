@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 the original author or authors.
+ * Copyright 2020 the original author or authors.
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,18 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.thierrysquirrel.limiter.annotation;
-
 
 import org.springframework.stereotype.Indexed;
 
 import java.lang.annotation.*;
 
 /**
- * ClassName: LimitTraffic
+ * ClassName: LimitedService
  * Description:
- * date: 2019/7/17 16:52
+ * date: 2020/6/18 15:37
  *
  * @author ThierrySquirrel
  * @since JDK 1.8
@@ -33,27 +31,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Indexed
-public @interface LimitTraffic {
-
-    /**
-     * Limit Name,If The Names Are The Same, Use The Same Token Bucket
-     *
-     * 限流名称,如果名称一样,使用同一个令牌桶
-     *
-     * @return String
-     */
-    String limitName();
-
-    /**
-     * Permits Per Second
-     *
-     * 每秒许可数
-     *
-     * @return double
-     */
-
-    double permitsPerSecond();
-
+public @interface LimitedService {
     /**
      * Fallback Class
      *

@@ -5,15 +5,15 @@ limiter SpringBoot  Edition
 [中文](./README_zh_CN.md)
 
 Support function：
-- [x] Single-machine current limiting
-- [x] Cluster Current Limitation
+- [x] Limit Traffic
+- [x] Limited Service
 
-## Tips：
-    Each time a node is restarted or added, the initial number fills redis, of course, when the capacity is not maximized.    
-    Specific flow restriction parameters, please cooperate with pressure testing tools to optimize, to achieve the QPS you need.  
-    If the current limit is successful, the code block with @LimitTraffic annotation will be executed, otherwise it will not be executed to facilitate user-defined schemes, such as service protection degradation, etc.  
-    In order to improve performance without strong consistency, the maximum current limiting error is -1 cluster number.  
-        
+## Tips:
+  Before Current Limiting, Please Press And Measure The QPS For Accurate Current Limiting  
+  Accurate Flow Restriction Ensures That The Service Will Not Be Shut Down Or Restarted Due To Excessive QPS, And The Service Cluster Is More Robust  
+  The Current Limiting Operation Should Be Divided Into Transactional Operation And Non Transactional Operation, And The QPS Gap Between Them Is Usually Large  
+  Limit Service, For Service That May Cause Delay Or High Error Rate, To Ensure The Security Of Services  
+      
 ##  Quick Start
 
 ```xml
@@ -21,58 +21,59 @@ Support function：
         <dependency>
             <artifactId>limiter-spring-boot-starter</artifactId>
             <groupId>com.github.thierrysquirrel</groupId>
-            <version>1.1.5-RELEASE</version>
+            <version>2.0.0-RELEASE</version>
         </dependency>
 ```
 
-### configuration file
- 
- ```properties
- ## application.properties
-spring.redis.host= #Your redis address
-spring.redis.port= #The port number of your redis
- ```
- 
-#   Start limiter
+#   Start Limiter
 
  ```java
  @SpringBootApplication
- @EnableLimiter
- public class DemoApplication{
+ public class LimiterApplication{
      public static void main(String[] args){
          SpringApplication.run(DemoApplication.class, args);
      }  
  }
  ```
  
- #  Current Limitation
+ #  Limit Traffic
  
  ```java
- @TokenLimitedTraffic
- public class Hello {
- 	@LimitTraffic(initialQuantity = 2333, maximumCapacity = 3222, addedQuantity = 2333)
- 	public String hello() {
- 		return "world";
+@Slf4j
+@Component
+public class LimitFallback {
+    public String limit(String limit) {
+        log.error (limit);
+        return limit;
+    }
+}
+
+ @RestController
+ public class limitController {
+    @LimitTraffic (limitName = "limit", permitsPerSecond = 2000, fallbackClass = LimitFallback.class, fallbackMethod = "limit")
+ 	public String limit(@RequestParam("limit") String limit) {
+ 		return limit;
  	}
  }
  ```
+
+ #  Limited Service
  
- #  Custom operation
-
-```java
-@RestController
-public class World {
-	@Resource
-	private Hello hello;
-
-	@GetMapping("/world")
-	public String world() {
-		String hello = this.hello.hello();
-		boolean empty = StringUtils.isEmpty(hello);
-		if (empty) {
-			return "service degradation";
-		}
-		return hello;
-	}
-}
-``` 
+  ```java
+ @Slf4j
+ @Component
+ public class LimitedServiceFallback {
+     public String limitedService(String limitedService) {
+         log.error (limitedService);
+         return limitedService;
+     }
+ }
+ 
+  @RestController
+  public class LimitedServiceController {
+     @LimitedService (fallbackClass = LimitedServiceFallback.class, fallbackMethod = "limitedService")
+  	public String limitedService(@RequestParam("limitedService") String limitedService) {
+  		return limitedService;
+  	}
+  }
+  ```

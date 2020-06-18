@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 the original author or authors.
+ * Copyright 2020 the original author or authors.
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,27 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.github.thierrysquirrel.limiter.core.utils;
 
-package com.github.thierrysquirrel.limiter.annotation;
-
-import org.springframework.stereotype.Component;
-
-import java.lang.annotation.*;
-
+import org.springframework.context.ApplicationContext;
 
 /**
- * ClassName: TokenLimitedTraffic
+ * ClassName: ApplicationContextUtils
  * Description:
- * date: 2019/7/17 16:51
+ * date: 2020/6/18 15:23
  *
  * @author ThierrySquirrel
  * @since JDK 1.8
  */
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-@Inherited
-@Component
-public @interface TokenLimitedTraffic {
+public class ApplicationContextUtils {
+    private ApplicationContextUtils() {
+    }
 
+    public static Object getFallbackBean(ApplicationContext applicationContext, Class<?> fallbackClass) {
+        return applicationContext.getBean (fallbackClass);
+    }
 }
