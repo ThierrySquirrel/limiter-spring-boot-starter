@@ -21,7 +21,7 @@ Support function：
         <dependency>
             <artifactId>limiter-spring-boot-starter</artifactId>
             <groupId>com.github.thierrysquirrel</groupId>
-            <version>2.0.1-RELEASE</version>
+            <version>2.0.2-RELEASE</version>
         </dependency>
 ```
 
