@@ -7,7 +7,7 @@
     <groupId>com.github.thierrysquirrel</groupId>
     <artifactId>limiter-spring-boot</artifactId>
     <packaging>pom</packaging>
-    <version>2.1.0.8-RELEASE</version>
+    <version>2.1.0.9-RELEASE</version>
 
     <name>limiter-spring-boot</name>
     <description>limiter-spring-boot</description>
@@ -16,7 +16,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.6</version>
+        <version>2.6.0</version>
         <relativePath/>
     </parent>
 
